@@ -1,6 +1,6 @@
-import numpy as np
 import glob
 import cv2
+from L1 import *
 
 
 class SubPixelAlignment:
@@ -10,6 +10,8 @@ class SubPixelAlignment:
         self.ref_img = []
         self.ref_img_arg = np.inf
         self.tilevec = []
+        self.tile_rows = 0
+        self.tile_cols = 0
 
     def get_image_vector(self):
         self.imgs = [cv2.imread(file, 0) for file in glob.glob("/home/yash/PycharmProjects/L2subpixelAlignment/Test1/*.jpg")]
@@ -39,10 +41,10 @@ class SubPixelAlignment:
 
 def main():
 
-    sp_object = SubPixelAlignment()
-    img_vec = sp_object.get_image_vector()
+    sp_object = L1()
+    sp_object.get_image_vector()
     sp_object.find_reference()
-    tilevec = sp_object.make_tiles(sp_object.ref_img)
+    sequence_dir1, sequence_dir2 = sp_object.l1_distance_all()
 
     print("Aligning...")
 
