@@ -1,3 +1,6 @@
+import numpy as np
+
+
 dist_mtx=np.zeros((3,3))
 for k in range(-1, 2):
     for l in range(-1, 2):
