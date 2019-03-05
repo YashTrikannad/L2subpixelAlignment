@@ -11,8 +11,8 @@ class L1(SubPixelAlignment):
 
         matrix2 = self.imgs[img_no]
 
-        movement_dir1 = np.zeros((self.tile_rows, self.tile_cols))
-        movement_dir2 = np.zeros((self.tile_rows, self.tile_cols))
+        movement_1 = np.zeros((self.tile_rows * 16, self.tile_cols * 16))
+        movement_2 = np.zeros((self.tile_rows * 16, self.tile_cols * 16))
 
         for i in range(self.tile_rows):
             for j in range(self.tile_cols):
@@ -32,17 +32,8 @@ class L1(SubPixelAlignment):
                                 min_norm = x
                                 min_l = l
                                 min_k = k
-                movement_dir1[i, j] = min_l
-                movement_dir2[i, j] = min_k
-
-        movement_1 = np.zeros((self.tile_rows * 16, self.tile_cols * 16))
-        movement_2 = np.zeros((self.tile_rows * 16, self.tile_cols * 16))
-
-        for i in range(self.tile_rows):
-            for j in range(self.tile_cols):
-
-                movement_1[i*16:i*16+16, j*16:j*16+16] = movement_dir1[i, j]
-                movement_2[i*16:i*16+16, j*16:j*16+16] = movement_dir2[i, j]
+                movement_1[i*16:i*16+16, j*16:j*16+16] = min_l
+                movement_2[i*16:i*16+16, j*16:j*16+16] = min_k
 
         return movement_1, movement_2
 
