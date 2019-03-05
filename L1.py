@@ -7,15 +7,6 @@ class L1(SubPixelAlignment):
     def __init__(self):
         super().__init__()
 
-    def isSafe(self, i, j, k, l):
-        safety1 = i + k
-        safety2 = j + l
-
-        if safety1 < 0 or safety1 > self.tile_rows or safety2 < 0 or safety2 > self.tile_cols:
-            return False
-        else:
-            return True
-
     def l1_distance(self, img_no):
 
         matrix2 = self.imgs[img_no]
@@ -44,14 +35,23 @@ class L1(SubPixelAlignment):
                 movement_dir1[i, j] = min_l
                 movement_dir2[i, j] = min_k
 
-        return movement_dir1, movement_dir2
+        movement_1 = np.zeros((self.tile_rows * 16, self.tile_cols * 16))
+        movement_2 = np.zeros((self.tile_rows * 16, self.tile_cols * 16))
+
+        for i in range(self.tile_rows):
+            for j in range(self.tile_cols):
+
+                movement_1[i*16:i*16+16, j*16:j*16+16] = movement_dir1[i, j]
+                movement_2[i*16:i*16+16, j*16:j*16+16] = movement_dir2[i, j]
+
+        return movement_1, movement_2
 
     def l1_distance_all(self):
         self.tilevec = self.make_tiles(self.ref_img)
         self.tile_rows = self.tilevec.shape[0]
         self.tile_cols = self.tilevec.shape[1]
-        dir1_sequence = np.zeros((len(self.imgs), self.tile_rows, self.tile_cols))
-        dir2_sequence = np.zeros((len(self.imgs), self.tile_rows, self.tile_cols))
+        dir1_sequence = np.zeros((len(self.imgs), self.tile_rows*16, self.tile_cols*16))
+        dir2_sequence = np.zeros((len(self.imgs), self.tile_rows*16, self.tile_cols*16))
         for i in range(len(self.imgs)):
             if i != self.ref_img_arg:
                 dir1_sequence[i], dir2_sequence[i] = self.l1_distance(i)

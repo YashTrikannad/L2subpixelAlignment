@@ -38,6 +38,15 @@ class SubPixelAlignment:
         self.ref_img = self.imgs[i]
         self.ref_img_arg = min_fm_arg
 
+    def isSafe(self, i, j, k, l):
+        safety1 = i + k
+        safety2 = j + l
+
+        if safety1 < 0 or safety1 > self.tile_rows or safety2 < 0 or safety2 > self.tile_cols:
+            return False
+        else:
+            return True
+
 
 def main():
 
