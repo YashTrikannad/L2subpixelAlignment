@@ -1,6 +1,6 @@
 import glob
 import cv2
-from L1 import *
+import numpy as np
 
 
 class SubPixelAlignment:
@@ -42,21 +42,9 @@ class SubPixelAlignment:
         safety1 = i + k
         safety2 = j + l
 
-        if safety1 < 0 or safety1 > self.tile_rows or safety2 < 0 or safety2 > self.tile_cols:
+        if safety1 < 0 or safety1 >= self.tile_rows or safety2 < 0 or safety2 >= self.tile_cols:
             return False
         else:
             return True
 
 
-def main():
-
-    sp_object = L1()
-    sp_object.get_image_vector()
-    sp_object.find_reference()
-    sequence_dir1, sequence_dir2 = sp_object.l1_distance_all()
-
-    print("Aligning...")
-
-
-if __name__ == "__main__":
-    main()

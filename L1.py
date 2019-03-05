@@ -16,7 +16,7 @@ class L1(SubPixelAlignment):
 
         for i in range(self.tile_rows):
             for j in range(self.tile_cols):
-                norm = np.linalg.norm(self.tilevec[i, j, :, :])
+                norm = np.linalg.norm(self.tilevec[i, j, :, :], ord=1)
                 min_norm = 10000
                 min_l = 0
                 min_k = 0
@@ -27,13 +27,13 @@ class L1(SubPixelAlignment):
 
                             if k == 0 and l == 0:
                                 continue
-                            x = np.abs(np.linalg.norm(matrix2[(i*16+k):(i*16+k+16), (j*16+l):(j*16+l+16)]) - norm)
+                            x = np.abs(np.linalg.norm(matrix2[(i*16+k):(i*16+k+16), (j*16+l):(j*16+l+16)], ord=1) - norm)
                             if x < min_norm:
                                 min_norm = x
                                 min_l = l
                                 min_k = k
-                movement_1[i*16:i*16+16, j*16:j*16+16] = min_l
-                movement_2[i*16:i*16+16, j*16:j*16+16] = min_k
+                movement_1[i*16:i*16+16, j*16:j*16+16] = min_k
+                movement_2[i*16:i*16+16, j*16:j*16+16] = min_l
 
         return movement_1, movement_2
 
